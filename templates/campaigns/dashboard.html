@@ -1,0 +1,117 @@
+{% extends 'base.html' %}
+{% block title %}My Dashboard - FundRaise{% endblock %}
+{% block content %}
+
+<h2 class="fw-bold mb-4">My Dashboard</h2>
+
+<div class="row g-3 mb-5">
+    <div class="col-md-4">
+        <div class="stat-box p-3 text-center">
+            <div class="fs-3 fw-bold text-primary">{{ my_campaigns.count }}</div>
+            <div class="text-muted">My Campaigns</div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="stat-box p-3 text-center">
+            <div class="fs-3 fw-bold text-success">Rs. {{ total_raised_by_me|floatformat:0 }}</div>
+            <div class="text-muted">Raised by My Campaigns</div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="stat-box p-3 text-center">
+            <div class="fs-3 fw-bold text-warning">Rs. {{ total_donated|floatformat:0 }}</div>
+            <div class="text-muted">Total I've Donated</div>
+        </div>
+    </div>
+</div>
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h4 class="fw-bold mb-0">My Campaigns</h4>
+    <a href="{% url 'create_campaign' %}" class="btn btn-primary btn-sm">+ New Campaign</a>
+</div>
+
+{% if my_campaigns %}
+<div class="table-responsive mb-5">
+    <table class="table bg-white rounded shadow-sm">
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Status</th>
+                <th>Category</th>
+                <th>Goal</th>
+                <th>Raised</th>
+                <th>Progress</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for c in my_campaigns %}
+            <tr>
+                <td>
+                    {% if c.status == 'approved' %}
+                        <a href="{% url 'campaign_detail' c.slug %}">{{ c.title }}</a>
+                    {% else %}
+                        {{ c.title }}
+                    {% endif %}
+                </td>
+                <td>
+                    {% if c.status == 'pending' %}
+                        <span class="badge bg-warning text-dark">Pending Review</span>
+                    {% elif c.status == 'approved' %}
+                        <span class="badge bg-success">Approved</span>
+                    {% elif c.status == 'rejected' %}
+                        <span class="badge bg-danger" title="{{ c.rejection_reason }}">Rejected</span>
+                    {% endif %}
+                </td>
+                <td>{{ c.get_category_display }}</td>
+                <td>Rs. {{ c.goal_amount|floatformat:0 }}</td>
+                <td>Rs. {{ c.raised_amount|floatformat:0 }}</td>
+                <td>{{ c.progress_percentage }}%</td>
+                <td>
+                    <a href="{% url 'edit_campaign' c.slug %}" class="btn btn-sm btn-outline-secondary">Edit</a>
+                </td>
+            </tr>
+            {% if c.status == 'rejected' and c.rejection_reason %}
+            <tr>
+                <td colspan="7" class="small text-danger bg-light">
+                    <strong>Admin's reason:</strong> {{ c.rejection_reason }}
+                </td>
+            </tr>
+            {% endif %}
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% else %}
+<p class="text-muted mb-5">You haven't started any campaigns yet.</p>
+{% endif %}
+
+<h4 class="fw-bold mb-3">My Donations</h4>
+{% if my_donations %}
+<div class="table-responsive">
+    <table class="table bg-white rounded shadow-sm">
+        <thead>
+            <tr>
+                <th>Campaign</th>
+                <th>Amount</th>
+                <th>Status</th>
+                <th>Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for d in my_donations %}
+            <tr>
+                <td><a href="{% url 'campaign_detail' d.campaign.slug %}">{{ d.campaign.title }}</a></td>
+                <td>Rs. {{ d.amount|floatformat:0 }}</td>
+                <td><span class="badge bg-secondary">{{ d.get_payment_status_display }}</span></td>
+                <td>{{ d.created_at|date:"M d, Y" }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% else %}
+<p class="text-muted">You haven't donated to any campaigns yet.</p>
+{% endif %}
+
+{% endblock %}

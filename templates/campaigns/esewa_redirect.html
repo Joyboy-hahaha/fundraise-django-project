@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% block title %}Redirecting to eSewa...{% endblock %}
+{% block content %}
+
+<div class="text-center py-5">
+    <div class="spinner-border text-success mb-3" role="status">
+        <span class="visually-hidden">Loading...</span>
+    </div>
+    <h4>Redirecting you to eSewa to complete your payment...</h4>
+    <p class="text-muted">Please do not close this window.</p>
+</div>
+
+<form id="esewa-form" method="POST" action="{{ esewa_url }}">
+    {% for key, value in esewa_payload.items %}
+        <input type="hidden" name="{{ key }}" value="{{ value }}">
+    {% endfor %}
+</form>
+
+<script>
+    document.getElementById('esewa-form').submit();
+</script>
+
+{% endblock %}

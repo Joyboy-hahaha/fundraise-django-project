@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% block title %}{{ title }} - FundRaise{% endblock %}
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-lg-7">
+        <div class="card shadow-sm border-0 rounded-4 p-4">
+            <h3 class="fw-bold mb-2">{{ title }}</h3>
+            <p class="text-muted small mb-4">Your campaign will be submitted for admin review and won't be publicly visible until approved.</p>
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="mb-3">
+                    <label class="form-label">Title</label>
+                    {{ form.title }}
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Description</label>
+                    {{ form.description }}
+                </div>
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Category</label>
+                        {{ form.category }}
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Goal Amount (Rs.)</label>
+                        {{ form.goal_amount }}
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Deadline (optional)</label>
+                    {{ form.deadline }}
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Campaign Image (optional)</label>
+                    {{ form.image }}
+                </div>
+                <button type="submit" class="btn btn-primary fw-semibold">Save Campaign</button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% block title %}Login - FundRaise{% endblock %}
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-5">
+        <div class="card shadow-sm border-0 rounded-4 p-4">
+            <h3 class="fw-bold mb-4 text-center">Welcome Back</h3>
+            <form method="post">
+                {% csrf_token %}
+                {% if form.errors %}
+                <div class="alert alert-danger">Your username and password didn't match. Please try again.</div>
+                {% endif %}
+                <div class="mb-3">
+                    <label class="form-label">Username</label>
+                    <input type="text" name="username" class="form-control" autofocus required>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Password</label>
+                    <input type="password" name="password" class="form-control" required>
+                </div>
+                <button type="submit" class="btn btn-primary w-100 fw-semibold">Login</button>
+                <input type="hidden" name="next" value="{{ next }}">
+            </form>
+            <p class="text-center text-muted mt-3 mb-0">
+                Don't have an account? <a href="{% url 'signup' %}">Sign up</a>
+            </p>
+        </div>
+    </div>
+</div>
+{% endblock %}

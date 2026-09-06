@@ -1,0 +1,53 @@
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: #f7f8fa;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.navbar-brand {
+    font-size: 1.4rem;
+}
+
+.campaign-card {
+    border: none;
+    border-radius: 14px;
+    overflow: hidden;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.06);
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+    height: 100%;
+}
+
+.campaign-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.10);
+}
+
+.campaign-card .card-img-top {
+    height: 180px;
+    object-fit: cover;
+    background: linear-gradient(135deg, #6366f1, #8b5cf6);
+}
+
+.progress {
+    height: 10px;
+    border-radius: 6px;
+}
+
+.hero {
+    background: linear-gradient(135deg, #4f46e5, #7c3aed);
+    color: white;
+    border-radius: 18px;
+    padding: 3rem 2rem;
+}
+
+.badge-category {
+    font-size: 0.75rem;
+}
+
+.stat-box {
+    border-radius: 14px;
+    background: white;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.06);
+}
